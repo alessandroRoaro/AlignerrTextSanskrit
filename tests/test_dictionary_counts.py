@@ -10,6 +10,7 @@ input_file. Set DICTIONARY_FILE to validate a dictionary at another path.
 import json
 import os
 import unittest
+import unicodedata
 from pathlib import Path
 
 
@@ -50,6 +51,14 @@ class DictionaryCountsTest(unittest.TestCase):
                 self.assertIn("definitions", entry)
 
                 self.assertIsInstance(entry["sanskrit"], str)
+                self.assertTrue(
+                    all(
+                        "DEVANAGARI" in unicodedata.name(character, "")
+                        for character in entry["sanskrit"]
+                        if not character.isspace()
+                    ),
+                    f"Entry {index}: sanskrit must be Devanagari or an empty string.",
+                )
                 self.assertIsInstance(entry["name"], str)
                 self.assertTrue(
                     entry["name"].islower() or not entry["name"],
