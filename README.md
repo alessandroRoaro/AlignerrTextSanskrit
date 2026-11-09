@@ -1,0 +1,2 @@
+# SanskritExtractor
+# AlignerrTextSanskrit
